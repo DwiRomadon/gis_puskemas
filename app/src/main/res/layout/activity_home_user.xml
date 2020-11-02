@@ -152,6 +152,7 @@
                         android:drawableTop="@drawable/nerd_"
                         android:paddingTop="25dp"
                         android:background="#ffffff"
+                        android:id="@+id/btnTentang"
                         android:text="Tentang"
                         android:textSize="11dp">
                     </Button>

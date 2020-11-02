@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".pengguna.History"></activity>
+        <activity android:name=".admin.Fasilitas"></activity>
+        <activity android:name=".pengguna.Tentang" />
+        <activity android:name=".pengguna.History" />
         <activity android:name=".pengguna.DetailPuskesPengguna" />
         <activity android:name=".admin.UbahJamBuka" />
         <activity android:name=".admin.TambahGambar" />

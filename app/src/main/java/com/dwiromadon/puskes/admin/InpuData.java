@@ -62,7 +62,7 @@ import java.util.Map;
 public class InpuData extends AppCompatActivity {
 
 
-    EditText edtNamaPuskes, edtNomorTelp, edtLat, edtLong;
+    EditText edtNamaPuskes, edtNomorTelp, edtLat, edtLong, edtFasilitas;
     Button takeImg1, btnSubmit;
     ImageView imgChoose1;
 
@@ -75,6 +75,7 @@ public class InpuData extends AppCompatActivity {
     private RequestQueue mRequestQueue;
 
     ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,7 @@ public class InpuData extends AppCompatActivity {
         edtNomorTelp = (EditText) findViewById(R.id.et_notelp);
         edtLat = (EditText) findViewById(R.id.et_lat);
         edtLong = (EditText) findViewById(R.id.et_longi);
+        edtFasilitas = (EditText) findViewById(R.id.et_fasilitas);
 
         takeImg1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,17 +120,20 @@ public class InpuData extends AppCompatActivity {
                 String noTelp       = edtNomorTelp.getText().toString();
                 String lati         = edtLat.getText().toString();
                 String longit       = edtLong.getText().toString();
+                String fasi       = edtFasilitas.getText().toString();
                 if (namaPuskes.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Nama Puskes tidak boleh kosong", Toast.LENGTH_LONG).show();
-                }
-                else if (noTelp.isEmpty()){
+                }else if (noTelp.isEmpty()){
                     Toast.makeText(getApplicationContext(), "No telphone tidak boleh kosong", Toast.LENGTH_LONG).show();
-                }else if (lati.isEmpty()){
+                }else if (fasi.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Fasilitas tidak boleh kosong", Toast.LENGTH_LONG).show();
+                }
+                else if (lati.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Kordinat latitude tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else if (longit.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Kordinat longitude tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }else {
-                    inputData(bitmap1, namaPuskes, noTelp, lati, longit);
+                    inputData(bitmap1, namaPuskes, noTelp, lati, longit, fasi);
                 }
             }
         });
@@ -285,7 +290,8 @@ public class InpuData extends AppCompatActivity {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void inputData(final Bitmap gmbr1, final String namaPus, final String noTep, final String lat, final String longi) {
+    private void inputData(final Bitmap gmbr1, final String namaPus, final String noTep,
+                           final String lat, final String longi, final String fasilitas) {
         pDialog.setMessage("Mohon Tunggu .........");
         showDialog();
         VolleyMultipart volleyMultipartRequest = new VolleyMultipart(Request.Method.POST, BaseURL.inputPuskemas,
@@ -329,6 +335,7 @@ public class InpuData extends AppCompatActivity {
                 params.put("noTelp", noTep);
                 params.put("lat", lat);
                 params.put("lon", longi);
+                params.put("fasilitas", fasilitas);
                 return params;
             }
             @Override

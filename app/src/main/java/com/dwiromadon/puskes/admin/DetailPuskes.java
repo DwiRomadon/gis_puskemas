@@ -1,14 +1,18 @@
 package com.dwiromadon.puskes.admin;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -38,19 +42,24 @@ import java.util.ArrayList;
 public class DetailPuskes extends AppCompatActivity {
 
     Intent i;
-    String _id, namaPuskes, alamat, noTelp, gambar, jamBuka, lat, lon;
+    String _id, namaPuskes, alamat, noTelp, gambar, jamBuka, lat, lon, fasi;
     ArrayList gam = new ArrayList();
     ArrayList listJamBuka = new ArrayList();
+//    ArrayList listFasilitas = new ArrayList();
     CarouselView carouselView;
 
     FloatingActionButton btnEditNama, btnSimpanNama, btnEditAlamat,
-            btnSimpanAlamst, btnEditNoTelp, btnSimpanNoTelp, fabUbahJamBuka;
+            btnSimpanAlamst, btnEditNoTelp, btnSimpanNoTelp, fabUbahJamBuka, fabButtonEditFasilitas, fabButtonSimpanFasilitas;
 
-    EditText edtPusekes, edtAlamat, edtNoTelp;
+    EditText edtPusekes, edtAlamat, edtNoTelp, edtFasilitas;
     Spinner spnJamBuka;
     FloatingActionButton fabAddGambar;
 
     private RequestQueue mRequestQueue;
+    ProgressDialog pDialog;
+
+    Button btnHapusData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,8 @@ public class DetailPuskes extends AppCompatActivity {
 
         getSupportActionBar().hide();
         mRequestQueue = Volley.newRequestQueue(this);
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         i = getIntent();
         _id = i.getStringExtra("_id");
@@ -69,11 +80,17 @@ public class DetailPuskes extends AppCompatActivity {
         jamBuka = i.getStringExtra("jambuka");
         lat = i.getStringExtra("lat");
         lon = i.getStringExtra("lon");
+        fasi = i.getStringExtra("fasilitas");
+        Log.d("Fasilitas", jamBuka);
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         edtPusekes = (EditText) findViewById(R.id.edtPusekes);
         edtAlamat = (EditText) findViewById(R.id.edtAlamat);
         edtNoTelp = (EditText) findViewById(R.id.edtNotelp);
+        edtFasilitas = (EditText) findViewById(R.id.edtFasilitas);
+
+
+        btnHapusData = (Button) findViewById(R.id.btnHapus);
 
         btnEditNama = (FloatingActionButton) findViewById(R.id.fabButtonEditNama);
         btnEditAlamat = (FloatingActionButton) findViewById(R.id.fabButtonEditAlamat);
@@ -82,8 +99,12 @@ public class DetailPuskes extends AppCompatActivity {
         btnSimpanAlamst = (FloatingActionButton) findViewById(R.id.fabButtonSimpanAlamat);
         btnSimpanNoTelp = (FloatingActionButton) findViewById(R.id.fabButtonSimpanNotelp);
         fabUbahJamBuka = (FloatingActionButton) findViewById(R.id.fabUbahJamBuka);
+        fabUbahJamBuka = (FloatingActionButton) findViewById(R.id.fabUbahJamBuka);
+        fabButtonEditFasilitas = (FloatingActionButton) findViewById(R.id.fabButtonEditFasilitas);
+        fabButtonSimpanFasilitas = (FloatingActionButton) findViewById(R.id.fabButtonSimpanFasilitas);
 
         spnJamBuka = (Spinner) findViewById(R.id.jamBuka);
+//        spnFasilitas = (Spinner) findViewById(R.id.spnFasilitas);
 
         fabAddGambar = (FloatingActionButton) findViewById(R.id.fabAddGambar);
 
@@ -100,11 +121,13 @@ public class DetailPuskes extends AppCompatActivity {
         edtPusekes.setText(namaPuskes);
         edtAlamat.setText(alamat);
         edtNoTelp.setText(noTelp);
+        edtFasilitas.setText(fasi);
 
 
         try {
             JSONArray arrayGambar = new JSONArray(gambar);
             JSONArray arrayJamBuka = new JSONArray(jamBuka);
+//            JSONArray arrayFasilitas = new JSONArray(fasi);
             for (int i = 0; i < arrayGambar.length(); i++) {
                 gam.add(BaseURL.baseUrl + "gambar/" + arrayGambar.get(i).toString());
             }
@@ -118,7 +141,6 @@ public class DetailPuskes extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listJamBuka);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spnJamBuka.setAdapter(adapter);
-
 
 
             carouselView.setPageCount(gam.size());
@@ -256,6 +278,68 @@ public class DetailPuskes extends AppCompatActivity {
                 finish();
             }
         });
+
+        fabButtonEditFasilitas.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View v) {
+                fabButtonSimpanFasilitas.setVisibility(View.VISIBLE);
+                fabButtonEditFasilitas.setVisibility(View.GONE);
+                edtFasilitas.setFocusableInTouchMode(true);
+                edtFasilitas.requestFocus();
+
+                if (edtFasilitas.requestFocus()) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+
+        fabButtonSimpanFasilitas.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View v) {
+                fabButtonSimpanFasilitas.setVisibility(View.GONE);
+                fabButtonEditFasilitas.setVisibility(View.VISIBLE);
+                edtFasilitas.setFocusableInTouchMode(false);
+                edtFasilitas.setFocusable(false);
+                String fasilitas = edtFasilitas.getText().toString();
+                try {
+                    JSONObject jsonObj1 = null;
+                    jsonObj1 = new JSONObject();
+                    jsonObj1.put("fasilitas", fasilitas);
+                    updateData(jsonObj1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        btnHapusData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DetailPuskes.this);
+                builder1.setMessage("Ingin Menghapus Puskes " + namaPuskes + " ?");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Ya",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                hapusData();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Tidak",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
     }
 
     ImageListener imageListener = new ImageListener() {
@@ -299,5 +383,52 @@ public class DetailPuskes extends AppCompatActivity {
             }
         });
         mRequestQueue.add(req);
+    }
+
+    public void hapusData(){
+        pDialog.setMessage("Mohon Tunggu .........");
+        showDialog();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.DELETE, BaseURL.hapusDataPuskes+ _id, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hideDialog();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            String strMsg = jsonObject.getString("msg");
+                            boolean status= jsonObject.getBoolean("error");
+                            if(status == false){
+                                Toast.makeText(getApplicationContext(), strMsg, Toast.LENGTH_LONG).show();
+                                Intent a = new Intent(DetailPuskes.this, DataPuskesmas.class);
+                                startActivity(a);
+                                finish();
+                            }else {
+                                Toast.makeText(getApplicationContext(), strMsg, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideDialog();
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+        mRequestQueue.add(req);
+    }
+
+
+    private void showDialog(){
+        if(!pDialog.isShowing()){
+            pDialog.show();
+        }
+    }
+
+    private void hideDialog(){
+        if(pDialog.isShowing()){
+            pDialog.dismiss();
+        }
     }
 }

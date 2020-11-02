@@ -1,7 +1,15 @@
 package com.dwiromadon.puskes.model;
 
 public class ModelPuskesAdmin {
-    String namaPuskes, alamat, notelp, jamBuka, lat, lon, gambar, _id, arrGambar, duration, jarak;
+    String namaPuskes, alamat, notelp, jamBuka, lat, lon, gambar, _id, arrGambar, duration, jarak, fasilitas;
+
+    public String getFasilitas() {
+        return fasilitas;
+    }
+
+    public void setFasilitas(String fasilitas) {
+        this.fasilitas = fasilitas;
+    }
 
     public String getDuration() {
         return duration;

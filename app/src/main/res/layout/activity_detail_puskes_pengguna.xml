@@ -105,6 +105,22 @@
                     android:background="#737373"/>
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/edtFasilitas"
+                        android:focusable="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:ems="10"
+                        android:inputType="textMultiLine"
+                        android:hint="Fasilitas" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <Button
                     android:id="@+id/goRoutes"
                     style="@style/Button1"
@@ -113,6 +129,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
                     android:text="Navigasi" />
+
 
             </LinearLayout>
         </TableLayout>

@@ -132,6 +132,7 @@ public class DataPuskesPengguna extends AppCompatActivity
                                     String jarakDistance = jobjJarak.getString("distance");
                                     String destination = jobjJarak.getString("destination");
                                     String duration = jobjJarak.getString("duration");
+                                    final String fasilitas = jsonObject.getString("fasilitas");
                                     puskes.setDuration(duration);
                                     puskes.setNamaPuskes(namaPuskes);
                                     puskes.setAlamat(destination);
@@ -143,6 +144,7 @@ public class DataPuskesPengguna extends AppCompatActivity
                                     puskes.setLat(lat);
                                     puskes.setLon(lon);
                                     puskes.setJarak(jarakDistance);
+                                    puskes.setFasilitas(fasilitas);
 
                                     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
@@ -158,6 +160,7 @@ public class DataPuskesPengguna extends AppCompatActivity
                                             a.putExtra("jambuka", newsList.get(position).getJamBuka());
                                             a.putExtra("lat", newsList.get(position).getLat());
                                             a.putExtra("lon", newsList.get(position).getLon());
+                                            a.putExtra("fasilitas", newsList.get(position).getFasilitas());
                                             startActivity(a);
                                         }
                                     });

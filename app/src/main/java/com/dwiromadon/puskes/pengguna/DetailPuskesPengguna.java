@@ -28,12 +28,12 @@ import java.util.ArrayList;
 public class DetailPuskesPengguna extends AppCompatActivity {
 
     Intent i;
-    String _id, namaPuskes, alamat, noTelp, gambar, jamBuka, lat, lon;
+    String _id, namaPuskes, alamat, noTelp, gambar, jamBuka, lat, lon, fasi;
     ArrayList gam = new ArrayList();
     ArrayList listJamBuka = new ArrayList();
     CarouselView carouselView;
 
-    EditText edtPetshop, edtAlamat, edtNoTelp;
+    EditText edtPetshop, edtAlamat, edtNoTelp, edtFasilitas;
     Spinner spnJamBuka;
     Button goRoutes;
 
@@ -46,7 +46,7 @@ public class DetailPuskesPengguna extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_puskes_pengguna);
 
-        getSupportActionBar().setTitle("Detail Petshop");
+        getSupportActionBar().hide();
 
         i = getIntent();
         _id = i.getStringExtra("_id");
@@ -57,6 +57,7 @@ public class DetailPuskesPengguna extends AppCompatActivity {
         gambar = i.getStringExtra("gambar");
         lat = i.getStringExtra("lat");
         lon = i.getStringExtra("lon");
+        fasi = i.getStringExtra("fasilitas");
 
         final String latLong = lat + "," + lon;
 
@@ -64,6 +65,7 @@ public class DetailPuskesPengguna extends AppCompatActivity {
         edtPetshop = (EditText) findViewById(R.id.edtPetshop);
         edtAlamat = (EditText) findViewById(R.id.edtAlamat);
         edtNoTelp = (EditText) findViewById(R.id.edtNotelp);
+        edtFasilitas = (EditText) findViewById(R.id.edtFasilitas);
 
         spnJamBuka = (Spinner) findViewById(R.id.jamBuka);
 
@@ -72,10 +74,12 @@ public class DetailPuskesPengguna extends AppCompatActivity {
         edtPetshop.setText(namaPuskes);
         edtAlamat.setText(alamat);
         edtNoTelp.setText(noTelp);
+        edtFasilitas.setText(fasi);
 
         try {
             JSONArray arrayGambar = new JSONArray(gambar);
             JSONArray arrayJamBuka = new JSONArray(jamBuka);
+
             for (int i = 0; i < arrayGambar.length(); i++){
                 gam.add(BaseURL.baseUrl + "gambar/" + arrayGambar.get(i).toString());
             }
