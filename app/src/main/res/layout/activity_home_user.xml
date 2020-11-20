@@ -175,7 +175,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/md_blue_grey_50"
-            android:text="Copy Right @ Rico Amanda Putra"
+            android:text="Copy Right @ Rico Ramanda Putra"
             app:fontFamily="@font/bree_serif" />
     </LinearLayout>
 

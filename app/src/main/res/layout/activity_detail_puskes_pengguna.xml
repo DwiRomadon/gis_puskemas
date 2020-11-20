@@ -58,7 +58,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:ems="10"
-                        android:hint="Nama Petshop" />
+                        android:hint="Nama Puskes" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +72,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:ems="10"
-                        android:hint="Alamat Petshop" />
+                        android:hint="Alamat Puskes" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

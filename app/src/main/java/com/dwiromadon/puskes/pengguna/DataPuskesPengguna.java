@@ -17,9 +17,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -68,6 +70,11 @@ public class DataPuskesPengguna extends AppCompatActivity
 
     EditText edtSearch;
 
+    int socketTimeout = 500000;
+    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +105,8 @@ public class DataPuskesPengguna extends AppCompatActivity
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); //
+
+        cari();
     }
 
     private void getAllPet(JSONObject jsonObject) {
@@ -181,6 +190,7 @@ public class DataPuskesPengguna extends AppCompatActivity
             }
         });
 
+        req.setRetryPolicy(policy);
         /* Add your Requests to the RequestQueue to execute */
         mRequestQueue.add(req);
     }
@@ -305,50 +315,48 @@ public class DataPuskesPengguna extends AppCompatActivity
         Toast.makeText(this, currentLatitude + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show();
     }
 
-//    public void cari(){
-//        edtSearch.addTextChangedListener(new TextWatcher() {
-//
-//            public void afterTextChanged(Editable s) {}
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-//
-//            public void onTextChanged(CharSequence query, int start, int before, int count) {
-//
-//                query = query.toString().toLowerCase();
-//
-//                final List<ModelPetshop> filteredList = new ArrayList<ModelPetshop>();
-//
-//                for (int i = 0; i < newsList.size(); i++) {
-//
-//                    final String text = newsList.get(i).getNamaPetshop().toLowerCase();
-//                    if (text.contains(query)) {
-//                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                // TODO Auto-generated method stub
-//                                inputHistori(filteredList.get(position).get_id());
-//                                Intent a = new Intent(DataPetshopPengguna.this, DetailPetshopPengguna.class);
-//                                a.putExtra("namaPetshop", filteredList.get(position).getNamaPetshop());
-//                                a.putExtra("_id", filteredList.get(position).get_id());
-//                                a.putExtra("alamat", filteredList.get(position).getAlamat());
-//                                a.putExtra("noTelp", filteredList.get(position).getNotelp());
-//                                a.putExtra("gambar", filteredList.get(position).getArrGambar());
-//                                a.putExtra("jambuka", filteredList.get(position).getJamBuka());
-//                                a.putExtra("produk", filteredList.get(position).getProduk());
-//                                a.putExtra("jasa", filteredList.get(position).getJasa());
-//                                a.putExtra("lat", filteredList.get(position).getLat());
-//                                a.putExtra("lon", filteredList.get(position).getLon());
-//                                startActivity(a);
-//                            }
-//                        });
-//                        filteredList.add(newsList.get(i));
-//                    }
-//                }
-//                adapter = new AdapterPenggunaPetshop(DataPetshopPengguna.this, filteredList);
-//                list.setAdapter(adapter);
-//            }
-//        });
-//    }
+    public void cari(){
+        edtSearch.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+                query = query.toString().toLowerCase();
+
+                final List<ModelPuskesAdmin> filteredList = new ArrayList<ModelPuskesAdmin>();
+
+                for (int i = 0; i < newsList.size(); i++) {
+
+                    final String text = newsList.get(i).getNamaPuskes().toLowerCase();
+                    if (text.contains(query)) {
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                // TODO Auto-generated method stub
+                                Intent a = new Intent(DataPuskesPengguna.this, DetailPuskesPengguna.class);
+                                a.putExtra("namaPuskes", filteredList.get(position).getNamaPuskes());
+                                a.putExtra("_id", filteredList.get(position).get_id());
+                                a.putExtra("alamat", filteredList.get(position).getAlamat());
+                                a.putExtra("noTelp", filteredList.get(position).getNotelp());
+                                a.putExtra("gambar", filteredList.get(position).getArrGambar());
+                                a.putExtra("jambuka", filteredList.get(position).getJamBuka());
+                                a.putExtra("lat", filteredList.get(position).getLat());
+                                a.putExtra("lon", filteredList.get(position).getLon());
+                                a.putExtra("fasilitas", filteredList.get(position).getFasilitas());
+                                startActivity(a);
+                            }
+                        });
+                        filteredList.add(newsList.get(i));
+                    }
+                }
+                adapter = new AdapterPenggunaPuskes(DataPuskesPengguna.this, filteredList);
+                list.setAdapter(adapter);
+            }
+        });
+    }
 
     public void inputHistori(String _id){
         HashMap<String, String> params = new HashMap<String, String>();

@@ -34,13 +34,76 @@
             android:textColor="@color/md_blue_grey_50"
             app:fontFamily="@font/bree_serif" />
     </LinearLayout>
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Aplikasi Ini Di Buat Untuk Memudahkan Masyarakat Yang Ada Di Bandar Lampung Untuk Mencari Puskesmas Terdekat Yang Ada Di Kota Bandar Lampung  "
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="18dp"/>
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/top"
+            android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tentang Aplikasi :"
+                android:textStyle="bold"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="20dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/md_blue_grey_500"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Aplikasi Ini Di Buat Untuk Memudahkan Masyarakat Yang Ada Di Bandar Lampung Untuk Mencari Puskesmas Terdekat Yang Ada Di Kota Bandar Lampung  "
+                android:gravity="center|left"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Cara penggunaan aplikasi pencarian puskesmas terdekat : "
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="20dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/md_blue_grey_500"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="1. Pada tampilan maps jika anda menekan maps makan akan muncul pin puskesmas yang ada di bandar lampung. Pada bagian cari radius anda bisa memasukkan jarak sesuai keinginan anda.
+2. Pada tampilan puskesmas terdekat anda dapat melihat jarak puskesmas terdekat dari posisi anda.
+3. Pada bagian history pencarian anda dapat melihat history puskesmas yang sebelumnya pernah anda cari, anda juga dapat menghapus history pencarian dengan cara menekan sedikit lama di history pencarian makan akan muncul menu hapus pencarian. "
+                android:gravity="center|left"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="18dp"/>
+    </LinearLayout>
+    </ScrollView>
+        </LinearLayout>
 
 </RelativeLayout>

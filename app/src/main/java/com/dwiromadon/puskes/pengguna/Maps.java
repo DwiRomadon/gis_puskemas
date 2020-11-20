@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -94,6 +96,11 @@ public class Maps extends AppCompatActivity
 
         String goolgeMap = "com.google.android.apps.maps"; // identitas package aplikasi google masps android
         Uri gmmIntentUri;
+
+        int socketTimeout = 500000;
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +108,6 @@ public class Maps extends AppCompatActivity
         setContentView(R.layout.activity_activiti_maps);
 
         getSupportActionBar().setTitle("Maps Puskesmas");
-
 
         mRequestQueue = Volley.newRequestQueue(this);
         pDialog = new ProgressDialog(this);
@@ -299,7 +305,7 @@ public class Maps extends AppCompatActivity
         protected void onPause() {
             super.onPause();
             mapView.onPause();
-            Log.v(this.getClass().getSimpleName(), "onPause()");
+//            Log.v(this.getClass().getSimpleName(), "onPause()");
 
             //Disconnect from API onPause()
             if (mGoogleApiClient.isConnected()) {
@@ -344,7 +350,7 @@ public class Maps extends AppCompatActivity
                         public void onResponse(JSONObject response) {
                             hideDialog();
                             try {
-                                Log.d("Response = ", response.toString());
+//                                Log.d("Response = ", response.toString());
                                 String result =  response.getString("data");
                                 final JSONArray jsonArray = new JSONArray(result);
 
@@ -384,10 +390,11 @@ public class Maps extends AppCompatActivity
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
                     VolleyLog.e("Error: ", error.getMessage());
-                    Log.d("Error = ", error.toString());
+//                    Log.d("Error = ", error.toString());
                 }
             });
 
+            req.setRetryPolicy(policy);
             /* Add your Requests to the RequestQueue to execute */
             mRequestQueue.add(req);
         }
@@ -419,7 +426,7 @@ public class Maps extends AppCompatActivity
                 //If everything went fine lets get latitude and longitude
                 currentLatitude = location.getLatitude();
                 currentLongitude = location.getLongitude();
-                Log.d("Lat Lon = ", String.valueOf(currentLatitude) + " " + String.valueOf(currentLongitude));
+//                Log.d("Lat Lon = ", String.valueOf(currentLatitude) + " " + String.valueOf(currentLongitude));
 
                 try {
                     JSONObject jsonObj1=null;
@@ -427,7 +434,7 @@ public class Maps extends AppCompatActivity
                     jsonObj1.put("lat", String.valueOf(currentLatitude));
                     jsonObj1.put("lon", String.valueOf(currentLongitude));
 
-                    Log.d("Data = ", jsonObj1.toString());
+//                    Log.d("Data = ", jsonObj1.toString());
                     final JSONObject finalJsonObj = jsonObj1;
                     getData(finalJsonObj);
 
@@ -466,7 +473,7 @@ public class Maps extends AppCompatActivity
                  * If no resolution is available, display a dialog to the
                  * user with the error.
                  */
-                Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode());
+//                Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode());
             }
         }
 
