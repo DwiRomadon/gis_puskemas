@@ -41,6 +41,7 @@
             android:gravity="center"
             android:layout_marginTop="30dp"
             android:layout_below="@+id/top"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
@@ -95,8 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="1. Pada tampilan maps jika anda menekan maps makan akan muncul pin puskesmas yang ada di bandar lampung. Pada bagian cari radius anda bisa memasukkan jarak sesuai keinginan anda.
-2. Pada tampilan puskesmas terdekat anda dapat melihat jarak puskesmas terdekat dari posisi anda.
-3. Pada bagian history pencarian anda dapat melihat history puskesmas yang sebelumnya pernah anda cari, anda juga dapat menghapus history pencarian dengan cara menekan sedikit lama di history pencarian makan akan muncul menu hapus pencarian. "
+                \n\n2. Pada tampilan puskesmas terdekat anda dapat melihat jarak puskesmas terdekat dari posisi anda.
+                \n\n3. Pada bagian history pencarian anda dapat melihat history puskesmas yang sebelumnya pernah anda cari, anda juga dapat menghapus history pencarian dengan cara menekan sedikit lama di history pencarian makan akan muncul menu hapus pencarian. "
                 android:gravity="center|left"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
